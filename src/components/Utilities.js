@@ -13,7 +13,7 @@ const callFetch = (method, jsonStr, id) => {
                 //,body:body
     };
     
-    let url = "http://localhost:8080/crud/cruds";
+    let url = "https://www.auxpolice.org/crud/cruds";
 
     if (id.length > 0 && method === "GET")
         url += "/" + id;
