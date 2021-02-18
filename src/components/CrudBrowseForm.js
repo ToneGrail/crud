@@ -23,18 +23,16 @@ class CrudBrowseForm extends React.Component {
         let fetchResults = callFetch("GET", "", "");
 
         fetchResults
-            .then(response => {
-                    return (
-                        response.json()
-                    );
+        .then(
+            response => response.json()
+        )
+        .then(
+            data => this.setState(
+                {
+                    jsonCrudArray: data
                 }
             )
-            .then(data => {
-                    return (
-                        this.setState({ jsonCrudArray: data })
-                    );
-                }
-            );
+        );
     }
 
     deleteCruds() {

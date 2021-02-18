@@ -36,14 +36,18 @@ class CrudEditForm extends React.Component {
 
         let fetch = callFetch("GET", "", id);
         fetch
-        .then(response => response.json())
-        .then(data => this.setState(
-            {
-                id: data.id,
-                description: data.description,
-                qty: data.qty
-            }
-        ));
+        .then(
+            response => response.json()
+        )
+        .then(
+            data => this.setState(
+                {
+                    id: data.id,
+                    description: data.description,
+                    qty: data.qty
+                }
+            )
+        );
     }
 
     handleChangedDescription(event) {
