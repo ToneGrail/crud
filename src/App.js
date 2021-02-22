@@ -2,11 +2,11 @@ import React from "react";
 import CrudBrowseForm from "./components/CrudBrowseForm";
 
 function App() {
-  return (
+    return (
     <div>
-      <CrudBrowseForm/>
+        <CrudBrowseForm/>
     </div>
-  );
+    );
 }
 
 export default App;

@@ -1,4 +1,11 @@
-const callFetch = (method, jsonStr, id) => {
+const fetchCrud = (method, jsonStr, id) => {
+    return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
+};
+
+export {fetchCrud};
+
+
+const callFetch = (endPoint, method, jsonStr, id) => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Accept","application/json");
@@ -12,8 +19,8 @@ const callFetch = (method, jsonStr, id) => {
                 ,credentials: 'include'
                 //,body:body
     };
-    
-    let url = "https://www.auxpolice.org/crud/cruds";
+
+    let url = endPoint;
 
     if (id.length > 0 && method === "GET")
         url += "/" + id;

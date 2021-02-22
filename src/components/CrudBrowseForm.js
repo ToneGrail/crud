@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import CrudBrowseDetail from "./CrudBrowseDetail";
 import CrudEditForm from "./CrudEditForm";
-import {callFetch} from "./Utilities";
+import {fetchCrud} from "./Utilities";
 
 class CrudBrowseForm extends React.Component {
 
@@ -20,19 +20,9 @@ class CrudBrowseForm extends React.Component {
     }            
 
     getCruds() {
-        let fetchResults = callFetch("GET", "", "");
-
-        fetchResults
-        .then(
-            response => response.json()
-        )
-        .then(
-            data => this.setState(
-                {
-                    jsonCrudArray: data
-                }
-            )
-        );
+        fetchCrud("GET", "", "")
+        .then(response => response.json())
+        .then(data => this.setState({jsonCrudArray: data}));
     }
 
     deleteCruds() {
@@ -41,7 +31,8 @@ class CrudBrowseForm extends React.Component {
             let deleteStatus = each.querySelector("#deleteStatus").value;
             let id = each.querySelector("#id").value;
 
-            return ({
+            return (
+                {
                     id : id,
                     deleteStatus : deleteStatus
                 }
@@ -49,20 +40,20 @@ class CrudBrowseForm extends React.Component {
         });
         
 
-        let checkedCount = 0;
-        for (let i = 1; i < jsonDeleteArray.length; i++) {
-            if (jsonDeleteArray[i].deleteStatus === "Y")
-                checkedCount++;
-        }
+        //let checkedCount = 0;
+        //for (let i = 1; i < jsonDeleteArray.length; i++) {
+        //    if (jsonDeleteArray[i].deleteStatus === "Y")
+        //        checkedCount++;
+       //}
 
-
+        let checkedCount = jsonDeleteArray.filter(each => each.deleteStatus === "Y").length;
         if (checkedCount === 0) {
             alert("You must check at least one row.");
             return;
         }
 
 
-        callFetch("DELETE", JSON.stringify(jsonDeleteArray), "");
+        fetchCrud("DELETE", JSON.stringify(jsonDeleteArray), "");
 
         setTimeout(() => {
             this.getCruds();

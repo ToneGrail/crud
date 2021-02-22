@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import CrudBrowseForm from "./CrudBrowseForm"
-import {callFetch} from "./Utilities";
+import {fetchCrud} from "./Utilities";
 
 class CrudEditForm extends React.Component {
     
@@ -34,20 +34,15 @@ class CrudEditForm extends React.Component {
 
         console.log("id = " + id);
 
-        let fetch = callFetch("GET", "", id);
-        fetch
-        .then(
-            response => response.json()
-        )
-        .then(
-            data => this.setState(
-                {
-                    id: data.id,
-                    description: data.description,
-                    qty: data.qty
-                }
-            )
-        );
+        fetchCrud("GET", "", id)        
+        .then(response => response.json())
+        .then(data => this.setState(
+            {
+                id: data.id,
+                description: data.description,
+                qty: data.qty
+            }
+        ));
     }
 
     handleChangedDescription(event) {
@@ -105,8 +100,8 @@ class CrudEditForm extends React.Component {
         };
         //console.log(jsonArray);
         
-        let fetch = callFetch(method, JSON.stringify(jsonArray), id);
-        fetch.then( response => response.json() );
+        let fetch = fetchCrud(method, JSON.stringify(jsonArray), id);
+        fetch.then(response => response.json());
 
         //alert("Update Successful!");
         //window.location = "CrudBrowseReact.html";
