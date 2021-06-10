@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import CrudBrowseDetail from "./CrudBrowseDetail";
 import CrudEditForm from "./CrudEditForm";
-import {fetchCrud} from "./Utilities";
+import {fetchCrud} from "../Helper/Utilities";
 
 class CrudBrowseForm extends React.Component {
 
@@ -39,6 +39,7 @@ class CrudBrowseForm extends React.Component {
             );
         });
         
+        console.log(jsonDeleteArray);
 
         //let checkedCount = 0;
         //for (let i = 1; i < jsonDeleteArray.length; i++) {
@@ -53,11 +54,10 @@ class CrudBrowseForm extends React.Component {
         }
 
 
-        fetchCrud("DELETE", JSON.stringify(jsonDeleteArray), "");
-
-        setTimeout(() => {
-            this.getCruds();
-        }, 500);
+        fetchCrud("DELETE", JSON.stringify(jsonDeleteArray), "")
+        .then(
+            this.getCruds
+        );
     }
 
     add() {

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import CrudBrowseForm from "./CrudBrowseForm"
-import {fetchCrud} from "./Utilities";
+import {fetchCrud} from "../Helper/Utilities";
 
 class CrudEditForm extends React.Component {
     
@@ -100,21 +100,24 @@ class CrudEditForm extends React.Component {
         };
         //console.log(jsonArray);
         
-        let fetch = fetchCrud(method, JSON.stringify(jsonArray), id);
-        fetch.then(response => response.json());
+        fetchCrud(method, JSON.stringify(jsonArray), id)
+        .then(
+            this.goBrowse
+        );
 
         //alert("Update Successful!");
         //window.location = "CrudBrowseReact.html";
 
-        setTimeout(() => {
-            ReactDOM.render(
-                <React.StrictMode>
-                <CrudBrowseForm/>
-                </React.StrictMode>,
-                document.getElementById('root')
-            );
-        }, 500);
 
+    }
+
+    goBrowse() {
+        ReactDOM.render(
+            <React.StrictMode>
+            <CrudBrowseForm/>
+            </React.StrictMode>,
+            document.getElementById('root')
+        );
     }
 
     render() {

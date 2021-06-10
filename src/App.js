@@ -1,11 +1,10 @@
-import React from "react";
-import CrudBrowseForm from "./components/CrudBrowseForm";
+import CrudBrowseForm from "./components/Hooks/CrudBrowseForm";
 
 function App() {
     return (
-    <div>
-        <CrudBrowseForm/>
-    </div>
+        <div>
+            <CrudBrowseForm/>
+        </div>
     );
 }
 
