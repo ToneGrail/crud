@@ -42,7 +42,7 @@ const CrudEditForm = (props) => {
 
         updCrud({id:id,
                  description:description,
-                 dte:Date.parse(dte),
+                 dte:Date.parse(dte.replaceAll("-", "/")),
                  tme:tme,
                  qty:qty});
     };
@@ -93,7 +93,7 @@ const CrudEditForm = (props) => {
                     <tr>
                         <td>Date :</td>
                         <td>
-                            <input type="text"
+                            <input type="date"
                                 id="dte"
                                 value={dte}
                                 onChange={(event) => setDte(event.target.value)}
