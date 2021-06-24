@@ -136,6 +136,8 @@ const CrudEditForm = (props) => {
                                 value={qty}
                                 onChange={event => setQty(event.target.value)}
                                 ref={qtyRef}
+                                step="1"
+                                min="0"
                             />
                         </td>
                     </tr>
