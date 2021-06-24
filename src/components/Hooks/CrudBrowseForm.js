@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
 import {fetchCrud} from "../Helper/Utilities";
 import CrudBrowseDetail from "./CrudBrowseDetail";
 
@@ -37,13 +38,22 @@ const CrudBrowseForm = () => {
 
     const fetchCruds = async () => {
         //const res = await fetch("https://www.auxpolice.org/crud/cruds");
-        const response = await fetchCrud("GET", "", "");
-        const data = await response.json();
+        let retValue = null;
+        try {
+            const response = await fetchCrud("GET", "", "");
+            const data = await response.json();
+            if (!response.ok)
+                console.log(response.statusText);
 
-        //console.log("data = ", data);
-        //console.log(response);
+            //console.log("data = ", data);
+            //console.log(response);
+            retValue = data;
 
-        return data;
+        } catch (err) {
+            console.log(err);
+        }
+
+        return retValue;
     };
 
     const updDeleteStatus = (crud, isChecked) => {
@@ -61,35 +71,44 @@ const CrudBrowseForm = () => {
     };
 
     const deleteCheckedCruds = async () => {
-        const jsonDeleteArray = cruds.map(each =>
-            ({
+        const jsonDeleteArray = cruds.filter(each =>
+             each.deleteStatus === "Y" || each.dte === "DATE").map(each => ({
                 "id" : each.id,
                 "deleteStatus" : each.deleteStatus
-            })
-        );
+        }));
+        //console.log(jsonDeleteArray);
+
+        if (jsonDeleteArray.length <= 1) {
+            alert("Must check at least one row to delete!");
+            return;
+        }
+
+        await fetchCrud("DELETE", JSON.stringify(jsonDeleteArray), "");
 
         setCruds(cruds.filter(each =>
             each.deleteStatus !== "Y"
         ));
-
-
-        //console.log(jsonDeleteArray);
-
-        await fetchCrud("DELETE", JSON.stringify(jsonDeleteArray), "");
     };
 
-    const crudDetailArray = cruds.map(row => <CrudBrowseDetail key={row.id} row={row} updDeleteStatus={updDeleteStatus}/>);
+
+    const crudDetailArray = cruds.map(each => <CrudBrowseDetail key={each.id}
+                                                                crud={each}
+                                                                updDeleteStatus={updDeleteStatus}/>
+    );
 
     //console.log(crudDetailArray);
 
-    return (          
+    return (
         <div>
-            <button name="btnDelete" id="btnDelete" onClick={deleteCheckedCruds}>Delete Checked</button>
-            <table>
-                <tbody>
-                    {crudDetailArray}
-                </tbody>
-            </table>
+            <center>
+                <button name="btnDelete" id="btnDelete" onClick={deleteCheckedCruds}>Delete Checked</button>
+                <table>
+                    <tbody>
+                        {crudDetailArray}
+                    </tbody>
+                </table>
+                <Link to="/about">About</Link>
+            </center>
         </div>
     );
 };

@@ -1,152 +1,81 @@
-import React from "react";
-import ReactDOM from 'react-dom';
-import CrudBrowseForm from "./CrudBrowseForm"
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import {useState} from "react";
 import {fetchCrud} from "../Helper/Utilities";
+import {formattedDate} from "../Helper/Utilities";
 
-class CrudEditForm extends React.Component {
+const CrudEditForm = () => {
+    const location = useLocation();
+    const crud = location.state.crud;
     
-    constructor(props) {
-        super(props);
-        this.state = {id: "", description: ""};
+    let history = useHistory();
 
+    const [id, setId] = useState(crud.id);
+    const [description, setDescription] = useState(crud.description);
+    const [dte, setDte] = useState(formattedDate(crud.dte));
+    const [tme, setTme] = useState(crud.tme);
+    const [qty, setQty] = useState(crud.qty);
 
-        this.getCrud = this.getCrud.bind(this); 
-        this.saveCrud = this.saveCrud.bind(this); 
-
-        this.handleChangedDescription = this.handleChangedDescription.bind(this); 
-        this.handleChangedQty = this.handleChangedQty.bind(this); 
-    }
-
-    componentDidMount() {
-        this.getCrud();
-    }
-
-    getCrud() {
-        //let params = new URLSearchParams(window.location.search);
-        //let id = params.get("id") === null ? "" : params.get("id");
-        //if (id === null)
-        //    return;
-
-
-        let id = this.props.id + "";
-        if (id.length === 0)
-            return;
-
-        console.log("id = " + id);
-
-        fetchCrud("GET", "", id)        
-        .then(response => response.json())
-        .then(data => this.setState(
-            {
-                id: data.id,
-                description: data.description,
-                qty: data.qty
-            }
-        ));
-    }
-
-    handleChangedDescription(event) {
-        //console.log(event.target.value);
-        //debugger;
-        
-        this.setState({"description":event.target.value});
-    }
-
-    handleChangedQty(event) {
-        this.setState({"qty":event.target.value});
-    }
-
-
-    saveCrud(event) {
+    const onSubmit = event => {
+        //console.log("onSubmit");
         event.preventDefault();
 
-        //console.log(document.querySelector("#description").value);
-
-        if (document.querySelector("#description").value.trim().length === 0) {
-            alert("Must enter description");
-            document.querySelector("#description").focus();
+        if (!description) {
+            alert("Description Required!");
             return;
         }
 
-        if (document.querySelector("#qty").value.trim().length === 0) {
-            alert("Must enter quantity");
-            document.querySelector("#qty").focus();
+        if (!dte) {
+            alert("Date Required!");
             return;
         }
 
-        if (isNaN(document.querySelector("#qty").value)) {
-            alert("Must be a number");
-            document.querySelector("#qty").focus();
+        if (!tme) {
+            alert("Time Required!");
             return;
         }
 
-        let method = "PUT";
-        let id = this.state.id + "";
-
-        //let params = new URLSearchParams(window.location.search);
-        //if (params.get("id") === null)
-        //    method = "POST";
-
-        if (id.length === 0)
-            method = "POST";
-
-
-        //console.log(method);
-
-        let jsonArray = {
-            id: id,
-            description:document.querySelector("#description").value,
-            qty: document.querySelector("#qty").value
-        };
-        //console.log(jsonArray);
-        
-        fetchCrud(method, JSON.stringify(jsonArray), id)
-        .then(
-            this.goBrowse
-        );
-
-        //alert("Update Successful!");
-        //window.location = "CrudBrowseReact.html";
-
-
-    }
-
-    goBrowse() {
-        ReactDOM.render(
-            <React.StrictMode>
-            <CrudBrowseForm/>
-            </React.StrictMode>,
-            document.getElementById('root')
-        );
-    }
-
-    render() {
-        //let type = "text";
-        let label="Crud ID :";
-
-        //let params = new URLSearchParams(window.location.search);
-        //let id = params.get("id") === null ? "" : params.get("id");
-
-        //console.log(this.props.id);
-        let id = this.props.id;
-        if (id.length === 0) {
-            //type = "hidden";
-            label="";
+        if (!qty) {
+            alert("Quantity Required!");
+            return;
         }
 
-        return (
-          
-            <div>
-                <form name="CrudEditForm" id="CrudEditForm" onSubmit={this.saveCrud}>
+        setId(crud.id);
 
+        updCrud({id:id,
+                 description:description,
+                 dte:Date.parse(dte),
+                 tme:tme,
+                 qty:qty});
+    };
+
+    const updCrud = async crud => {
+        //console.log("updating json " + JSON.stringify(crud));
+
+        const response = await fetchCrud("PUT", JSON.stringify(crud), crud.id);
+        if (!response.ok)
+            console.log("error = ", response.statusText);
+
+        history.push("/");
+    };
+
+    const goBack = () => {
+        history.push("/");
+    };
+
+    return (
+        <div>
+            <center>
+                <form name="CrudEditForm" id="CrudEditForm" onSubmit={onSubmit}>
                     <table>
                     <tbody>
                     <tr>
-                        <td>{label}</td>
+                        <td>ID</td>
                         <td style={{"textAlign": "right"}}>
                             <input type="hidden" name="id"
-                                id="id" value={this.state.id}/>
-                            {this.props.id}
+                                id="id" value={id}
+                            />
+                            {id}
                         </td>
                     </tr>
                     <tr>
@@ -154,8 +83,29 @@ class CrudEditForm extends React.Component {
                         <td>
                             <input type="text"
                                 id="description"
-                                value={this.state.description}
-                                onChange={this.handleChangedDescription} autoFocus/>
+                                value={description}
+                                onChange={event => setDescription(event.target.value)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date :</td>
+                        <td>
+                            <input type="text"
+                                id="dte"
+                                value={dte}
+                                onChange={(event) => setDte(event.target.value)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time :</td>
+                        <td>
+                            <input type="text"
+                                id="tme"
+                                value={tme}
+                                onChange={event => setTme(event.target.value)}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -163,18 +113,20 @@ class CrudEditForm extends React.Component {
                         <td>
                             <input type="text"
                                 id="qty"
-                                value={this.state.qty}
-                                onChange={this.handleChangedQty}/>
+                                value={qty}
+                                onChange={event => setQty(event.target.value)}
+                            />
                         </td>
                     </tr>
                     </tbody>
                     </table>
 
                     <input type="submit" name="btnSave" id="btnSave" value="Submit"/>
+                    <input type="button" name="btnBack" id="btnBack" value="Back" onClick={goBack}/>
                 </form>
-            </div>
-        );
-    }
-}
+            </center>
+        </div>
+    );
+};
 
 export default CrudEditForm;

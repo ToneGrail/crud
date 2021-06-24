@@ -1,5 +1,6 @@
 const fetchCrud = (method, jsonStr, id) => {
-    return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
+    //return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
+    return callFetch("http://localhost:8080/crud/cruds", method, jsonStr, id);
 };
 
 export {fetchCrud};
@@ -34,6 +35,16 @@ const callFetch = (endPoint, method, jsonStr, id) => {
 };
 
 export {callFetch};
+
+const formattedDate = date => {
+    return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "numeric",
+        day: "2-digit"
+      }).format(date);
+};
+
+export {formattedDate};
 
 
 const round = (number, decPlaces) =>

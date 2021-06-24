@@ -1,24 +1,37 @@
-//import {useState} from "react";
+import {Link} from "react-router-dom";
+import {formattedDate} from "../Helper/Utilities";
 
-const CrudBrowseDetail = ({row, updDeleteStatus}) => {
-    //const [cbxDelete, setCbxDelete] = useState("");
-
+const CrudBrowseDetail = ({crud, updDeleteStatus}) => {
     return (
         <tr>
             <td>
-                <input type={row.id === "" ? "hidden" : "checkbox"}
+                <input type={crud.id === "" ? "hidden" : "checkbox"}
                        name="cbxDelete" id="cbxDelete"
-                       onChange={event => updDeleteStatus(row, event.currentTarget.checked)}
+                       onChange={event => updDeleteStatus(crud, event.currentTarget.checked)}
                 />
 
             </td>
             <td>
-                <input type="hidden" name="id" id="id" value={row.id}/>
-                <input type="hidden" name="deleteStatus" id="deleteStatus" value={row.deleteStatus}/>
-                {row.id}
+
+                <Link to={{pathname:"/CrudEditForm", state:{crud:crud}}}>{crud.id}</Link>
+                
             </td>
             <td>&nbsp;</td>
-            <td>{row.description}</td>
+            <td>
+                {crud.description !== "DESCRIPTION" ? crud.description : <b>{crud.description}</b>}
+            </td>
+            <td>&nbsp;</td>
+            <td align="center">
+                {crud.dte !== "DATE" ? formattedDate(crud.dte) : <b>{crud.dte}</b>}
+            </td>
+            <td>&nbsp;</td>
+            <td align="center">
+                {crud.tme !== "TIME" ? crud.tme : <b>{crud.tme}</b>}
+            </td>
+            <td>&nbsp;</td>
+            <td align="right">
+                {crud.qty !== "QUANTITY" ? crud.qty : <b>{crud.qty}</b>}
+            </td>
         </tr>
     )
 };
