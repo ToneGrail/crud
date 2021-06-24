@@ -10,7 +10,7 @@ const CrudEditForm = (props) => {
 
     const [id, setId] = useState(paramCrud.id);
     const [description, setDescription] = useState(paramCrud.description);
-    const [dte, setDte] = useState(formattedDate(paramCrud.dte));
+    const [dte, setDte] = useState(paramCrud.dte === "" ? paramCrud.dte : formattedDate(paramCrud.dte));
     const [tme, setTme] = useState(paramCrud.tme);
     const [qty, setQty] = useState(paramCrud.qty);
 
@@ -42,7 +42,7 @@ const CrudEditForm = (props) => {
 
         updCrud({id:id,
                  description:description,
-                 dte:Date.parse(dte),
+                 dte:dte,
                  tme:tme,
                  qty:qty});
     };

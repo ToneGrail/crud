@@ -104,7 +104,7 @@ const CrudBrowseForm = () => {
             deleteStatus : ""
         };
 
-        history.push('/CrudEditForm', {  crud: crud } );
+        history.push('/CrudEditForm', {crud: crud} );
     };
 
 
