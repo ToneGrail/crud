@@ -1,7 +1,11 @@
 import { useHistory } from "react-router-dom";
 import {useState} from "react";
+import { useRef } from 'react';
 import {fetchCrud} from "../Helper/Utilities";
-import {formattedDate} from "../Helper/Utilities";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import TimePicker from 'react-time-picker';
 
 const CrudEditForm = (props) => {
     const paramCrud = props.location.state.crud;
@@ -9,17 +13,26 @@ const CrudEditForm = (props) => {
     let history = useHistory();
 
     const [id, setId] = useState(paramCrud.id);
+
     const [description, setDescription] = useState(paramCrud.description);
-    const [dte, setDte] = useState(paramCrud.dte === "" ? "" :formattedDate(paramCrud.dte));
+    const descriptionRef = useRef();
+
+    const [dte, setDte] = useState(paramCrud.dte);
+    const dteRef = useRef();
+
     const [tme, setTme] = useState(paramCrud.tme);
+    const tmeRef = useRef();
+
     const [qty, setQty] = useState(paramCrud.qty);
+    const qtyRef = useRef();
+
 
     const onSubmit = event => {
-        //console.log("onSubmit");
         event.preventDefault();
 
         if (!description) {
             alert("Description Required!");
+            descriptionRef.current.focus();
             return;
         }
 
@@ -33,8 +46,15 @@ const CrudEditForm = (props) => {
             return;
         }
 
+        //if (parseInt(tme.substring(3, 5)) % 15 !== 0)
+        //{
+        //    alert("Time must be in 15 minute increments!");
+        //    return;
+        //}
+
         if (!qty) {
             alert("Quantity Required!");
+            qtyRef.current.focus();
             return;
         }
 
@@ -42,14 +62,12 @@ const CrudEditForm = (props) => {
 
         updCrud({id:id,
                  description:description,
-                 dte:Date.parse(dte.replaceAll("-", "/")),
+                 dte:dte,
                  tme:tme,
                  qty:qty});
     };
 
     const updCrud = async crud => {
-        //console.log("updating json " + JSON.stringify(crud));
-
         let method = "PUT";
         if (crud.id === "")
             method = "POST";
@@ -87,36 +105,41 @@ const CrudEditForm = (props) => {
                                 id="description"
                                 value={description}
                                 onChange={event => setDescription(event.target.value)}
+                                ref={descriptionRef}
                             />
                         </td>
                     </tr>
                     <tr>
                         <td>Date :</td>
                         <td>
-                            <input type="date"
-                                id="dte"
-                                value={dte}
-                                onChange={(event) => setDte(event.target.value)}
+                            <DatePicker selected={dte}
+                                        onChange={date => setDte(date)}
+                                        name="dte"
+                                        dateFormat="MM/dd/yyyy"
                             />
                         </td>
                     </tr>
                     <tr>
                         <td>Time :</td>
                         <td>
-                            <input type="text"
-                                id="tme"
+                            <TimePicker
+                                onChange={time => setTme(time)}
                                 value={tme}
-                                onChange={event => setTme(event.target.value)}
+                                disableClock
+                                format="HH:mm"
+                                name="tme"
                             />
+
                         </td>
                     </tr>
                     <tr>
                         <td>Quantity :</td>
                         <td>
-                            <input type="text"
+                            <input type="number"
                                 id="qty"
                                 value={qty}
                                 onChange={event => setQty(event.target.value)}
+                                ref={qtyRef}
                             />
                         </td>
                     </tr>

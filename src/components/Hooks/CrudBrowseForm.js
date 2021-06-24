@@ -40,7 +40,6 @@ const CrudBrowseForm = () => {
     }, []);
 
     const fetchCruds = async () => {
-        //const res = await fetch("https://www.auxpolice.org/crud/cruds");
         let retValue = null;
         try {
             const response = await fetchCrud("GET", "", "");
@@ -48,8 +47,6 @@ const CrudBrowseForm = () => {
             if (!response.ok)
                 console.log(response.statusText);
 
-            //console.log("data = ", data);
-            //console.log(response);
             retValue = data;
 
         } catch (err) {
@@ -60,8 +57,6 @@ const CrudBrowseForm = () => {
     };
 
     const updDeleteStatus = (crud, isChecked) => {
-        //console.log("before = ", cruds[crud.id].deleteStatus);
-
         const updatedCrud = {
             ...crud, cbxDelete : isChecked, deleteStatus : (isChecked  ? "Y" : "")
         };
@@ -69,8 +64,6 @@ const CrudBrowseForm = () => {
         setCruds(cruds.map(each =>
             each.id === crud.id ? updatedCrud : each 
         ));
-
-        //console.log("after = ", cruds[crud.id].deleteStatus);
     };
 
     const deleteCheckedCruds = async () => {
@@ -79,7 +72,6 @@ const CrudBrowseForm = () => {
                 "id" : each.id,
                 "deleteStatus" : each.deleteStatus
         }));
-        //console.log(jsonDeleteArray);
 
         if (jsonDeleteArray.length <= 1) {
             alert("Must check at least one row to delete!");
@@ -112,8 +104,6 @@ const CrudBrowseForm = () => {
                                                                 crud={each}
                                                                 updDeleteStatus={updDeleteStatus}/>
     );
-
-    //console.log(crudDetailArray);
 
     return (
         <div>
