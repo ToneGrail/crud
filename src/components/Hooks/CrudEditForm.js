@@ -12,16 +12,14 @@ const CrudEditForm = (props) => {
     
     let history = useHistory();
 
-    const [id, setId] = useState(paramCrud.id);
+    const [id] = useState(paramCrud.id);
 
     const [description, setDescription] = useState(paramCrud.description);
     const descriptionRef = useRef();
 
     const [dte, setDte] = useState(paramCrud.dte);
-    const dteRef = useRef();
 
     const [tme, setTme] = useState(paramCrud.tme);
-    const tmeRef = useRef();
 
     const [qty, setQty] = useState(paramCrud.qty);
     const qtyRef = useRef();
@@ -57,8 +55,6 @@ const CrudEditForm = (props) => {
             qtyRef.current.focus();
             return;
         }
-
-        setId(paramCrud.id);
 
         updCrud({id:id,
                  description:description,
