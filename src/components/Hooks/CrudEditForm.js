@@ -1,20 +1,18 @@
-import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import {useState} from "react";
 import {fetchCrud} from "../Helper/Utilities";
 import {formattedDate} from "../Helper/Utilities";
 
-const CrudEditForm = () => {
-    const location = useLocation();
-    const crud = location.state.crud;
+const CrudEditForm = (props) => {
+    const paramCrud = props.location.state.crud;
     
     let history = useHistory();
 
-    const [id, setId] = useState(crud.id);
-    const [description, setDescription] = useState(crud.description);
-    const [dte, setDte] = useState(formattedDate(crud.dte));
-    const [tme, setTme] = useState(crud.tme);
-    const [qty, setQty] = useState(crud.qty);
+    const [id, setId] = useState(paramCrud.id);
+    const [description, setDescription] = useState(paramCrud.description);
+    const [dte, setDte] = useState(formattedDate(paramCrud.dte));
+    const [tme, setTme] = useState(paramCrud.tme);
+    const [qty, setQty] = useState(paramCrud.qty);
 
     const onSubmit = event => {
         //console.log("onSubmit");
@@ -40,7 +38,7 @@ const CrudEditForm = () => {
             return;
         }
 
-        setId(crud.id);
+        setId(paramCrud.id);
 
         updCrud({id:id,
                  description:description,
@@ -52,7 +50,11 @@ const CrudEditForm = () => {
     const updCrud = async crud => {
         //console.log("updating json " + JSON.stringify(crud));
 
-        const response = await fetchCrud("PUT", JSON.stringify(crud), crud.id);
+        let method = "PUT";
+        if (crud.id === "")
+            method = "POST";
+
+        const response = await fetchCrud(method, JSON.stringify(crud), crud.id);
         if (!response.ok)
             console.log("error = ", response.statusText);
 
@@ -70,7 +72,7 @@ const CrudEditForm = () => {
                     <table>
                     <tbody>
                     <tr>
-                        <td>ID</td>
+                        <td>{paramCrud.id !== "" && "ID"}</td>
                         <td style={{"textAlign": "right"}}>
                             <input type="hidden" name="id"
                                 id="id" value={id}
