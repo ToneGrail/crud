@@ -1,6 +1,42 @@
+import {useState} from "react";
+
+const useToken = () => {
+    const getToken = () => {
+        const tokenString = sessionStorage.getItem('token');
+        //const userToken = JSON.parse(tokenString);
+        const userToken = tokenString;
+        return userToken?.token;
+    };
+
+    const [token, setToken] = useState(getToken());
+
+    const saveToken = userToken => {
+        //sessionStorage.setItem("token", JSON.stringify(userToken));
+        //setToken(userToken.token);
+        sessionStorage.setItem("token", userToken);
+        setToken(userToken);
+    };
+    
+    return {
+        token: token,
+        setToken: saveToken
+    };
+}
+
+export {useToken};
+
+
+const authenticate = (method, jsonStr, id) => {
+    //return callFetch("https://www.auxpolice.org/crud/authenticate", method, jsonStr, id);
+    return callFetch("http://localhost:8080/crud/cruds/authenticate", method, jsonStr, id);
+};
+
+export {authenticate};
+
+
 const fetchCrud = (method, jsonStr, id) => {
-    return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
-    //return callFetch("http://localhost:8080/crud/cruds", method, jsonStr, id);
+    //return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
+    return callFetch("http://localhost:8080/crud/cruds", method, jsonStr, id);
 };
 
 export {fetchCrud};

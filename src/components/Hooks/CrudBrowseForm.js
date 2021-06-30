@@ -106,17 +106,16 @@ const CrudBrowseForm = () => {
     );
 
     return (
-        <div>
-            <center>
-                <button name="btnDelete" id="btnDelete" onClick={deleteCheckedCruds}>Delete Checked</button>
-                <button name="btnAdd" id="btnAdd" onClick={goToAddPage}>Add</button>
-                <table>
-                    <tbody>
-                        {crudDetailArray}
-                    </tbody>
-                </table>
-                <Link to="/about">About</Link>
-            </center>
+        <div className="login-wrapper">
+            <button name="btnDelete" id="btnDelete" onClick={deleteCheckedCruds}>Delete Checked</button>
+            <button name="btnAdd" id="btnAdd" onClick={goToAddPage}>Add</button>
+            <table>
+                <tbody>
+                    {crudDetailArray}
+                </tbody>
+            </table>
+
+            <Link to="/about">About</Link>
         </div>
     );
 };
