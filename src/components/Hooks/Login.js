@@ -56,9 +56,8 @@ const Login = ({setToken}) => {
             return;
         }
 
-        //console.log("token saved = ", JSON.stringify(tokens[0]));
-        //setToken(JSON.stringify(tokens[0]));
-        setToken("loggedOn");
+        //console.log("token saved = ", crudUsers[0].enabled);
+        setToken(crudUsers[0].enabled);
     };
 
     return (

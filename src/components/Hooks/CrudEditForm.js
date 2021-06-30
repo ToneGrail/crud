@@ -24,6 +24,8 @@ const CrudEditForm = (props) => {
     const [qty, setQty] = useState(paramCrud.qty);
     const qtyRef = useRef();
 
+    const token = sessionStorage.getItem('token');
+
 
     const onSubmit = event => {
         event.preventDefault();
@@ -80,75 +82,76 @@ const CrudEditForm = (props) => {
     };
 
     return (
-        <div>
-            <center>
-                <form name="CrudEditForm" id="CrudEditForm" onSubmit={onSubmit}>
-                    <table>
-                    <tbody>
-                    <tr>
-                        <td>{paramCrud.id !== "" && "ID"}</td>
-                        <td style={{"textAlign": "right"}}>
-                            <input type="hidden" name="id"
-                                id="id" value={id}
-                            />
-                            {id}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Description :</td>
-                        <td>
-                            <input type="text"
-                                id="description"
-                                value={description}
-                                onChange={event => setDescription(event.target.value)}
-                                ref={descriptionRef}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Date :</td>
-                        <td>
-                            <DatePicker selected={dte}
-                                        onChange={date => setDte(date)}
-                                        name="dte"
-                                        dateFormat="MM/dd/yyyy"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Time :</td>
-                        <td>
-                            <TimePicker
-                                onChange={time => setTme(time)}
-                                value={tme}
-                                disableClock
-                                format="HH:mm"
-                                name="tme"
-                            />
+        <div className="wrapper">
+            <h2>
+                You have access level {token}
+            </h2>
+            <form name="CrudEditForm" id="CrudEditForm" onSubmit={onSubmit}>
+                <table>
+                <tbody>
+                <tr>
+                    <td>{paramCrud.id !== "" && "ID"}</td>
+                    <td style={{"textAlign": "right"}}>
+                        <input type="hidden" name="id"
+                            id="id" value={id}
+                        />
+                        {id}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Description :</td>
+                    <td>
+                        <input type="text"
+                            id="description"
+                            value={description}
+                            onChange={event => setDescription(event.target.value)}
+                            ref={descriptionRef}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date :</td>
+                    <td>
+                        <DatePicker selected={dte}
+                                    onChange={date => setDte(date)}
+                                    name="dte"
+                                    dateFormat="MM/dd/yyyy"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Time :</td>
+                    <td>
+                        <TimePicker
+                            onChange={time => setTme(time)}
+                            value={tme}
+                            disableClock
+                            format="HH:mm"
+                            name="tme"
+                        />
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Quantity :</td>
-                        <td>
-                            <input type="number"
-                                id="qty"
-                                value={qty}
-                                onChange={event => setQty(event.target.value)}
-                                ref={qtyRef}
-                                step="1"
-                                min="0"
-                            />
-                        </td>
-                    </tr>
-                    </tbody>
-                    </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quantity :</td>
+                    <td>
+                        <input type="number"
+                            id="qty"
+                            value={qty}
+                            onChange={event => setQty(event.target.value)}
+                            ref={qtyRef}
+                            step="1"
+                            min="0"
+                        />
+                    </td>
+                </tr>
+                </tbody>
+                </table>
 
-                    <input type="submit" name="btnSave" id="btnSave" value="Submit"/>
-                    <input type="button" name="btnBack" id="btnBack" value="Back" onClick={goBack}/>
-                </form>
-            </center>
-        </div>
+                <input type="submit" name="btnSave" id="btnSave" value="Submit"/>
+                <input type="button" name="btnBack" id="btnBack" value="Back" onClick={goBack}/>
+            </form>
+    </div>
     );
 };
 

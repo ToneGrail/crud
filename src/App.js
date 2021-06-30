@@ -23,7 +23,7 @@ function App() {
                 <Switch>
                     <Route path="/" exact component={CrudBrowseForm}/>
                     <Route path="/CrudEditForm" exact component={CrudEditForm}/>
-                    <Route path="/about" exact component={About}/>
+                    <Route path="/about" exact component={About} />
                 </Switch>
             </Router>
         </div>
