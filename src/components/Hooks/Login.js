@@ -19,12 +19,12 @@ const Login = ({setToken}) => {
     
             const data = await response.json();
             if (!response.ok)
-                console.log(response.statusText);
+                console.log("ERROR : ", response.statusText);
     
             retValue = data;
-    
+
         } catch (err) {
-            console.log(err);
+            console.log("ERROR : ", err);
         }
     
         return retValue;

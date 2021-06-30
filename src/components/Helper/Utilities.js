@@ -27,16 +27,16 @@ export {useToken};
 
 
 const authenticate = (method, jsonStr, id) => {
-    //return callFetch("https://www.auxpolice.org/crud/authenticate", method, jsonStr, id);
-    return callFetch("http://localhost:8080/crud/cruds/authenticate", method, jsonStr, id);
+    return callFetch("https://www.auxpolice.org/crud/cruds/authenticate", method, jsonStr, id);
+    //return callFetch("http://localhost:8080/crud/cruds/authenticate", method, jsonStr, id);
 };
 
 export {authenticate};
 
 
 const fetchCrud = (method, jsonStr, id) => {
-    //return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
-    return callFetch("http://localhost:8080/crud/cruds", method, jsonStr, id);
+    return callFetch("https://www.auxpolice.org/crud/cruds", method, jsonStr, id);
+    //return callFetch("http://localhost:8080/crud/cruds", method, jsonStr, id);
 };
 
 export {fetchCrud};
