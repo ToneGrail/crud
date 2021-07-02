@@ -106,7 +106,7 @@ const CrudBrowseForm = () => {
     );
 
     return (
-        <div className="login-wrapper">
+        <div className="App">
             <button name="btnDelete" id="btnDelete" onClick={deleteCheckedCruds}>Delete Checked</button>
             <button name="btnAdd" id="btnAdd" onClick={goToAddPage}>Add</button>
             <table>

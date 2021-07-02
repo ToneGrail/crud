@@ -10,6 +10,7 @@ const Login = ({setToken}) => {
     const [password, setPassword] = useState();
     const passwordRef = useRef();
 
+    sessionStorage.clear();
 
     const loginUser = async credentials => {
         let retValue = null;

@@ -24,7 +24,7 @@ const CrudEditForm = (props) => {
     const [qty, setQty] = useState(paramCrud.qty);
     const qtyRef = useRef();
 
-    const token = sessionStorage.getItem('token');
+    const accessLevelId = sessionStorage.getItem("accessLevelId");
 
 
     const onSubmit = event => {
@@ -84,7 +84,7 @@ const CrudEditForm = (props) => {
     return (
         <div className="wrapper">
             <h2>
-                You have access level {token}
+                You have access level {accessLevelId}
             </h2>
             <form name="CrudEditForm" id="CrudEditForm" onSubmit={onSubmit}>
                 <table>
@@ -92,9 +92,7 @@ const CrudEditForm = (props) => {
                 <tr>
                     <td>{paramCrud.id !== "" && "ID"}</td>
                     <td style={{"textAlign": "right"}}>
-                        <input type="hidden" name="id"
-                            id="id" value={id}
-                        />
+                        <input type="hidden" name="id" id="id" value={id}/>
                         {id}
                     </td>
                 </tr>

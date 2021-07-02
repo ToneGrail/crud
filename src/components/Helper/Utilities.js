@@ -1,8 +1,11 @@
 import {useState} from "react";
 
 const useToken = () => {
+
+    const tokenName = "accessLevelId";
+
     const getToken = () => {
-        const tokenString = sessionStorage.getItem('token');
+        const tokenString = sessionStorage.getItem(tokenName);
         //const userToken = JSON.parse(tokenString);
         const userToken = tokenString;
         return userToken?.token;
@@ -13,7 +16,7 @@ const useToken = () => {
     const saveToken = userToken => {
         //sessionStorage.setItem("token", JSON.stringify(userToken));
         //setToken(userToken.token);
-        sessionStorage.setItem("token", userToken);
+        sessionStorage.setItem(tokenName, userToken);
         setToken(userToken);
     };
     
@@ -71,6 +74,7 @@ const callFetch = (endPoint, method, jsonStr, id) => {
 };
 
 export {callFetch};
+
 
 const formattedDate = date => {
     return new Intl.DateTimeFormat("en-US", {
