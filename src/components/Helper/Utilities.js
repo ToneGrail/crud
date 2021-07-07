@@ -62,7 +62,7 @@ const callFetch = (endPoint, method, jsonStr, id) => {
 
     let url = endPoint;
 
-    if (id.length > 0 && method === "GET")
+    if (id && method === "GET")
         url += "/" + id;
 
     if (jsonStr.length > 0)

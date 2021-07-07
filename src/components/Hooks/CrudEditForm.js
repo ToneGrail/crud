@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TimePicker from 'react-time-picker';
+import {useEffect} from "react";
 
 const CrudEditForm = (props) => {
     const paramCrud = props.location.state.crud;
@@ -14,18 +15,50 @@ const CrudEditForm = (props) => {
 
     const [id] = useState(paramCrud.id);
 
-    const [description, setDescription] = useState(paramCrud.description);
+    const [description, setDescription] = useState("");
     const descriptionRef = useRef();
 
-    const [dte, setDte] = useState(paramCrud.dte);
+    const [dte, setDte] = useState("");
 
-    const [tme, setTme] = useState(paramCrud.tme);
+    const [tme, setTme] = useState("");
 
-    const [qty, setQty] = useState(paramCrud.qty);
+    const [qty, setQty] = useState("");
     const qtyRef = useRef();
 
     const accessLevelId = sessionStorage.getItem("accessLevelId");
 
+    
+    useEffect(() => {
+        const getCrud = async () => {
+            const crudFromServer = await fetchOneCrud(paramCrud.id);
+
+            setDescription(crudFromServer.description);
+            setQty(crudFromServer.qty);
+            setDte(crudFromServer.dte);
+            setTme(crudFromServer.tme);
+        };
+
+        getCrud();
+    }, [paramCrud.id]);
+
+    
+    const fetchOneCrud = async id => {
+        console.log(id);
+        let retValue = null;
+        try {
+            const response = await fetchCrud("GET", "", id);
+            const data = await response.json();
+            if (!response.ok)
+                console.log(response.statusText);
+
+            retValue = data;
+
+        } catch (err) {
+            console.log(err);
+        }
+
+        return retValue;
+    };
 
     const onSubmit = event => {
         event.preventDefault();
@@ -81,6 +114,7 @@ const CrudEditForm = (props) => {
         history.push("/");
     };
 
+   
     return (
         <div className="wrapper">
             <h2>
