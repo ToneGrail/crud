@@ -43,7 +43,6 @@ const CrudEditForm = (props) => {
 
     
     const fetchOneCrud = async id => {
-        console.log(id);
         let retValue = null;
         try {
             const response = await fetchCrud("GET", "", id);
