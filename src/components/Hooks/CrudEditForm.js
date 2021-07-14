@@ -25,7 +25,7 @@ const CrudEditForm = (props) => {
     const [qty, setQty] = useState("");
     const qtyRef = useRef();
 
-    const accessLevelId = sessionStorage.getItem("accessLevelId");
+    const crudUser = JSON.parse(sessionStorage.getItem("crudUser"));
 
     
     useEffect(() => {
@@ -113,11 +113,10 @@ const CrudEditForm = (props) => {
         history.push("/");
     };
 
-   
     return (
         <div className="wrapper">
             <h2>
-                You have access level {accessLevelId}
+                You have access level {crudUser.enabled}
             </h2>
             <form name="CrudEditForm" id="CrudEditForm" onSubmit={onSubmit}>
                 <table>

@@ -57,8 +57,8 @@ const Login = ({setToken}) => {
             return;
         }
 
-        //console.log("token saved = ", crudUsers[0].enabled);
-        setToken(crudUsers[0].enabled);
+        //console.log("token saved = ", crudUsers[0]);
+        setToken(crudUsers[0]);
     };
 
     return (
